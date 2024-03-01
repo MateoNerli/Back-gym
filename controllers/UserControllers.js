@@ -1,4 +1,4 @@
-const db = require("../database/models/userModels");
+const db = require("../database/models");
 
 const userController = {
   getAllUsers: async (req, res) => {
@@ -28,7 +28,7 @@ const userController = {
   updateUser: async (req, res) => {
     try {
       await db.User.update(req.body, {
-        where: { id: req.params.id },
+        where: { idUsers: req.params.id },
       });
       res.json({ message: "User updated" });
     } catch (error) {
@@ -38,7 +38,7 @@ const userController = {
   deleteUser: async (req, res) => {
     try {
       await db.User.destroy({
-        where: { id: req.params.id },
+        where: { idUsers: req.params.id },
       });
       res.json({ message: "User deleted" });
     } catch (error) {

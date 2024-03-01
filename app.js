@@ -2,23 +2,12 @@ const express = require("express");
 const cors = require("cors");
 
 // Rutas
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/UserRoutes");
 
 const app = express();
 
 // .ENV
 require("dotenv").config();
-// Base de datos
-const sequelize = require("./database/config/config.js");
-
-try {
-  sequelize.authenticate();
-  console.log("Connection has been established successfully.");
-  sequelize.sync({ force: false });
-  console.log("Database synchronized");
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
-}
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
