@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
     },
-    class: {
+    classes: {
       type: DataTypes.INTEGER,
     },
     price: {
@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
   };
-  let config = {};
+  let config = {
+    tableName: "payment_plans",
+    timestamps: false,
+  };
 
   const PaymentPlans = sequelize.define(alias, columns, config);
   PaymentPlans.associate = (models) => {

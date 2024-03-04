@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
   };
-  let config = {};
+  let config = {
+    tableName: "payment_means",
+    timestamps: false,
+  };
 
   const PaymenteMeans = sequelize.define(alias, columns, config);
 

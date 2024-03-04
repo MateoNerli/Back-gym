@@ -46,3 +46,5 @@ const activitiesController = {
     }
   },
 };
+
+module.exports = activitiesController;

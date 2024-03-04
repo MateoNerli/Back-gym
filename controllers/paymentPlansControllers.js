@@ -3,7 +3,7 @@ const db = require("../database/models");
 const paymentPlansController = {
   getAllPaymentPlans: async (req, res) => {
     try {
-      const paymentPlans = await db.PaymentPlan.findAll();
+      const paymentPlans = await db.PaymentPlans.findAll();
       res.json(paymentPlans);
     } catch (error) {
       res.json({ message: error.message });
@@ -11,7 +11,7 @@ const paymentPlansController = {
   },
   getPaymentPlanById: async (req, res) => {
     try {
-      const paymentPlan = await db.PaymentPlan.findByPk(req.params.id);
+      const paymentPlan = await db.PaymentPlans.findByPk(req.params.id);
       res.json(paymentPlan);
     } catch (error) {
       res.json({ message: error.message });
@@ -19,7 +19,7 @@ const paymentPlansController = {
   },
   createPaymentPlan: async (req, res) => {
     try {
-      const paymentPlan = await db.PaymentPlan.create(req.body);
+      const paymentPlan = await db.PaymentPlans.create(req.body);
       res.json({ message: "PaymentPlan created", paymentPlan });
     } catch (error) {
       res.json({ message: error.message });
@@ -27,7 +27,7 @@ const paymentPlansController = {
   },
   updatePaymentPlan: async (req, res) => {
     try {
-      await db.PaymentPlan.update(req.body, {
+      await db.PaymentPlans.update(req.body, {
         where: { idPaymentPlans: req.params.id },
       });
       res.json({ message: "PaymentPlan updated" });
@@ -37,7 +37,7 @@ const paymentPlansController = {
   },
   deletePaymentPlan: async (req, res) => {
     try {
-      await db.PaymentPlan.destroy({
+      await db.PaymentPlans.destroy({
         where: { idPaymentPlans: req.params.id },
       });
       res.json({ message: "PaymentPlan deleted" });
@@ -46,3 +46,5 @@ const paymentPlansController = {
     }
   },
 };
+
+module.exports = paymentPlansController;

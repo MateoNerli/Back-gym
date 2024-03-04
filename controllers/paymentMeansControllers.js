@@ -3,7 +3,7 @@ const db = require("../database/models");
 const paymentMeansController = {
   getAllPaymentMeans: async (req, res) => {
     try {
-      const paymentMeans = await db.PaymentMean.findAll();
+      const paymentMeans = await db.PaymenteMeans.findAll();
       res.json(paymentMeans);
     } catch (error) {
       res.json({ message: error.message });
@@ -11,7 +11,7 @@ const paymentMeansController = {
   },
   getPaymentMeanById: async (req, res) => {
     try {
-      const paymentMean = await db.PaymentMean.findByPk(req.params.id);
+      const paymentMean = await db.PaymenteMeans.findByPk(req.params.id);
       res.json(paymentMean);
     } catch (error) {
       res.json({ message: error.message });
@@ -19,7 +19,7 @@ const paymentMeansController = {
   },
   createPaymentMean: async (req, res) => {
     try {
-      const paymentMean = await db.PaymentMean.create(req.body);
+      const paymentMean = await db.PaymenteMeans.create(req.body);
       res.json({ message: "PaymentMean created", paymentMean });
     } catch (error) {
       res.json({ message: error.message });
@@ -27,7 +27,7 @@ const paymentMeansController = {
   },
   updatePaymentMean: async (req, res) => {
     try {
-      await db.PaymentMean.update(req.body, {
+      await db.PaymenteMeans.update(req.body, {
         where: { idPaymentMeans: req.params.id },
       });
       res.json({ message: "PaymentMean updated" });
@@ -37,7 +37,7 @@ const paymentMeansController = {
   },
   deletePaymentMean: async (req, res) => {
     try {
-      await db.PaymentMean.destroy({
+      await db.PaymenteMeans.destroy({
         where: { idPaymentMeans: req.params.id },
       });
       res.json({ message: "PaymentMean deleted" });
@@ -46,3 +46,5 @@ const paymentMeansController = {
     }
   },
 };
+
+module.exports = paymentMeansController;
