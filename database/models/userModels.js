@@ -47,21 +47,12 @@ module.exports = (sequelize, DataTypes) => {
 
   const User = sequelize.define(alias, columns, config);
 
-  // User.associate = (models) => {
-  //   User.hasMany(models.Order, {
-  //     as: "orders",
-  //     foreignKey: "Users_idUsers",
-  //   });
-  //   User.hasMany(models.Roles, {
-  //     as: "userRole",
-  //     foreignKey: "Users_idUsers",
-  //   });
-  //   User.belongsToMany(models.Membership, {
-  //     as: "memberships",
-  //     through: "Users_has_Memberships",
-  //     foreignKey: "Users_idUsers",
-  //     otherKey: "Memberships_idMemberships",
-  //   });
-  // };
+  User.associate = (models) => {
+    User.hasMany(models.Order, {
+      as: "orders",
+      foreignKey: "Users_idUsers",
+    });
+  };
+
   return User;
 };
