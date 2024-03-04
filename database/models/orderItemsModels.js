@@ -1,37 +1,38 @@
-module.exports = (sequelize, dataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   let alias = "OrderItem";
   let columns = {
     idOrderItems: {
-      type: dataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-
     name: {
-      type: dataTypes.STRING(100),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     price: {
-      type: dataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     quantity: {
-      type: dataTypes.INTEGER(11),
+      type: DataTypes.INTEGER(11),
       allowNull: false,
     },
   };
-  let configurations = {};
+  let configurations = {
+    tableName: "orderItems",
+    timestamps: false,
+  };
 
   const OrderItem = sequelize.define(alias, columns, configurations);
 
   OrderItem.associate = (models) => {
-    OrderItem.belongsTo(models.orderModels, {
-      as: "order",
+    OrderItem.belongsTo(models.Product, {
+      foreignKey: "Products_idProducts",
     });
-
-    OrderItem.belongsTo(models.productsModels, {
-      as: "product",
+    OrderItem.belongsTo(models.Order, {
+      foreignKey: "Orders_idOrders",
     });
   };
 

@@ -1,22 +1,22 @@
-module.exports = (sequelize, dataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   let alias = "Order";
   let columns = {
     idOrders: {
-      type: dataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
     total: {
-      type: dataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     paymentMethod: {
-      type: dataTypes.STRING(25),
+      type: DataTypes.STRING(25),
       allowNull: false,
     },
     shippingMethod: {
-      type: dataTypes.STRING(25),
+      type: DataTypes.STRING(25),
       allowNull: true,
     },
   };
@@ -25,11 +25,11 @@ module.exports = (sequelize, dataTypes) => {
   const Order = sequelize.define(alias, columns, configurations);
 
   Order.associate = (models) => {
-    Order.User = Order.belongsTo(models.usersModels, {
+    Order.belongsTo(models.User, {
       as: "user",
-      foreignKey: "userId",
+      foreignKey: "Users_idUsers",
     });
-    Order.OrderItems = Order.hasMany(models.orderItemsModels, {
+    Order.hasMany(models.OrderItem, {
       as: "orderItems",
     });
   };

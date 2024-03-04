@@ -1,34 +1,31 @@
 module.exports = (sequelize, DataTypes) => {
-  let alias = "Activity";
+  let alias = "PaymentPlans";
   let columns = {
-    idActivities: {
+    idpayment_plans: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-    },
     description: {
       type: DataTypes.STRING,
     },
-    duration: {
+    class: {
       type: DataTypes.INTEGER,
     },
     price: {
       type: DataTypes.INTEGER,
     },
+    activo: {
+      type: DataTypes.INTEGER,
+    },
   };
   let config = {};
 
-  const Activity = sequelize.define(alias, columns, config);
-
-  Activity.associate = (models) => {
-    Activity.belongsTo(models.User, {
-      as: "user",
-      foreignKey: "users_idUsers",
+  const PaymentPlans = sequelize.define(alias, columns, config);
+  PaymentPlans.associate = (models) => {
+    PaymentPlans.belongsTo(models.Activity, {
+      foreignKey: "activities_idactivities",
     });
   };
-
-  return Activity;
+  return PaymentPlans;
 };
