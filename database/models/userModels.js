@@ -1,56 +1,59 @@
 module.exports = (sequelize, DataTypes) => {
   let alias = "User";
   let columns = {
-    idUsers: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    dni: {
+    usuario: {
       type: DataTypes.INTEGER,
+      allowNull: false,
     },
-    name: {
+    nombre: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
-    lastname: {
+    correo: {
       type: DataTypes.STRING,
-    },
-    email: {
-      type: DataTypes.STRING,
-    },
-    phone: {
-      type: DataTypes.STRING,
+      allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
-    img: {
+    telefono: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
-    adress: {
+    foto: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
-    Birth_date: {
+    fecha: {
       type: DataTypes.DATE,
+      allowNull: true,
     },
-    reviews: {
-      type: DataTypes.STRING,
-    },
-    sex: {
-      type: DataTypes.STRING,
-    },
-    activo: {
+    estado: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    rol_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   };
-  let config = {};
+  let configurations = {
+    tableName: "usuarios",
+    timestamps: false,
+  };
 
-  const User = sequelize.define(alias, columns, config);
+  const User = sequelize.define(alias, columns, configurations);
 
   User.associate = (models) => {
-    User.hasMany(models.Order, {
-      as: "orders",
-      foreignKey: "Users_idUsers",
+    User.belongsTo(models.UserRole, {
+      as: "UserRole",
+      foreignKey: "rol_id",
     });
   };
 
