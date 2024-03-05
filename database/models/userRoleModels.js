@@ -17,12 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
   let configurations = {
-    tableName: "userroles",
+    tableName: "userrole",
     timestamps: false,
   };
 
   const UserRole = sequelize.define(alias, columns, configurations);
 
   return UserRole;
-  s;
 };
