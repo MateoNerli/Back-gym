@@ -30,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    id_user: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     estado: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -54,10 +50,6 @@ module.exports = (sequelize, DataTypes) => {
     DetallePlan.belongsTo(models.Plan, {
       as: "Plan",
       foreignKey: "id_plan",
-    });
-    DetallePlan.belongsTo(models.User, {
-      as: "User",
-      foreignKey: "id_user",
     });
   };
   return DetallePlan;

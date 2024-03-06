@@ -31,14 +31,25 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_user: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   };
 
   let configurations = {
-    tableName: "entrenadores",
+    tableName: "entrenador",
     timestamps: false,
   };
 
   const Entrenador = sequelize.define(alias, columns, configurations);
+
+  Entrenador.associate = (models) => {
+    Entrenador.belongsTo(models.User, {
+      as: "user",
+      foreignKey: "id_user",
+    });
+  };
 
   return Entrenador;
 };

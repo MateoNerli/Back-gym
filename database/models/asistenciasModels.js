@@ -23,11 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_entrenador: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    id_rutina: {
+    estado: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -44,14 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     Asistencias.belongsTo(models.Cliente, {
       as: "Cliente",
       foreignKey: "id_cliente",
-    });
-    Asistencias.belongsTo(models.Entrenador, {
-      as: "Entrenador",
-      foreignKey: "id_entrenador",
-    });
-    Asistencias.belongsTo(models.Rutina, {
-      as: "Rutina",
-      foreignKey: "id_rutina",
     });
   };
 

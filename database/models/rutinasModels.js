@@ -30,9 +30,9 @@ module.exports = (sequelize, dataTypes) => {
   const Rutina = sequelize.define(alias, columns, configurations);
 
   Rutina.associate = (models) => {
-    Rutina.belongsTo(models.User, {
-      as: "user",
-      foreignKey: "id_user",
+    Rutina.belongsTo(models.Cliente, {
+      as: "cliente",
+      foreignKey: "clientes_id",
     });
   };
 

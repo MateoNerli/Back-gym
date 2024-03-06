@@ -31,7 +31,7 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.INTEGER(11),
       allowNull: false,
     },
-    is_user: {
+    id_user: {
       type: dataTypes.INTEGER,
       allowNull: false,
     },
@@ -43,13 +43,6 @@ module.exports = (sequelize, dataTypes) => {
   };
 
   const Plan = sequelize.define(alias, columns, configurations);
-
-  Plan.associate = (models) => {
-    Plan.belongsTo(models.User, {
-      as: "user",
-      foreignKey: "id_user",
-    });
-  };
 
   return Plan;
 };
