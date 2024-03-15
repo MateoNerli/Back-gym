@@ -1,7 +1,7 @@
 module.exports = (sequelize, dataTypes) => {
   let alias = "Order";
   let columns = {
-    id: {
+    idorders: {
       type: dataTypes.INTEGER(11),
       primaryKey: true,
       autoIncrement: true,
@@ -11,11 +11,11 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    paymentMethod: {
+    metodoPago: {
       type: dataTypes.STRING(25),
       allowNull: false,
     },
-    shippingMethod: {
+    metodoEnvio: {
       type: dataTypes.STRING(25),
       allowNull: true,
     },

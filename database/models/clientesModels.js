@@ -1,53 +1,53 @@
 module.exports = (sequelize, DataTypes) => {
   let alias = "Cliente";
   let columns = {
-    id: {
+    dni: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    dni: {
-      type: DataTypes.STRING(10),
-      allowNull: false,
-    },
-    nombre: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    telefono: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    direccion: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    fecha: {
+    fecha_inicio: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    estado: {
+    fecha_fin: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    ocupacion: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    telefono_emergencia: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    codigo_plan: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_user: {
+    codigo_promocion: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
   };
 
   let configurations = {
-    tableName: "clientes",
+    tableName: "cliente",
     timestamps: false,
   };
 
   const Cliente = sequelize.define(alias, columns, configurations);
 
   Cliente.associate = (models) => {
-    Cliente.belongsTo(models.User, {
-      foreignKey: "id_user",
-      as: "user",
+    Cliente.belongsTo(models.Plan, {
+      as: "plan",
+      foreignKey: "codigo_plan",
+    });
+    Cliente.belongsTo(models.Promocion, {
+      as: "promocion",
+      foreignKey: "codigo_promocion",
     });
   };
 

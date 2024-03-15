@@ -1,22 +1,22 @@
 module.exports = (sequelize, dataTypes) => {
   let alias = "OrderItem";
   let columns = {
-    id: {
+    idorderIterms: {
       type: dataTypes.INTEGER(11),
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
 
-    name: {
+    nombre: {
       type: dataTypes.STRING(100),
       allowNull: false,
     },
-    price: {
+    precio: {
       type: dataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    quantity: {
+    cantidad: {
       type: dataTypes.INTEGER(11),
       allowNull: false,
     },

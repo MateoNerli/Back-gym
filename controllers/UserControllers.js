@@ -4,7 +4,18 @@ const userController = {
   getAllUsers: async (req, res) => {
     try {
       const users = await db.User.findAll();
-      res.json(users);
+      let respuesta = {
+        meta: {
+          status: 200,
+          changeType: "positive",
+          title: "Listado de usuarios",
+          total: users.length,
+          url: "/api/users",
+        },
+        data: users,
+      };
+      res.json(respuesta);
+      // res.json(users);
     } catch (error) {
       res.json({ message: error.message });
     }

@@ -1,17 +1,17 @@
 module.exports = (sequelize, dataTypes) => {
   let alias = "Product";
   let columns = {
-    id: {
+    idproductos: {
       type: dataTypes.INTEGER(11),
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    name: {
+    nombre: {
       type: dataTypes.STRING(100),
       allowNull: false,
     },
-    description: {
+    descripcion: {
       type: dataTypes.STRING(1000),
       allowNull: false,
     },
@@ -19,11 +19,11 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.STRING(100),
       allowNull: true,
     },
-    price: {
+    precio: {
       type: dataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    category_id: {
+    categoriaId: {
       type: dataTypes.INTEGER,
       allowNull: false,
     },
@@ -36,7 +36,7 @@ module.exports = (sequelize, dataTypes) => {
   Product.associate = (models) => {
     Product.belongsTo(models.Categoria, {
       as: "Categoria",
-      foreignKey: "category_id",
+      foreignKey: "categoriaId",
     });
   };
 

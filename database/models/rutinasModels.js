@@ -1,25 +1,21 @@
 module.exports = (sequelize, dataTypes) => {
   let alias = "Rutina";
   let columns = {
-    id: {
+    codigo: {
       type: dataTypes.INTEGER(11),
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    dia: {
+    nombre: {
       type: dataTypes.STRING(50),
       allowNull: false,
     },
-    descripcion: {
+    dia: {
       type: dataTypes.STRING(1000),
       allowNull: false,
     },
-    id_user: {
-      type: dataTypes.INTEGER(11),
-      allowNull: false,
-    },
-    estado: {
+    cliente_dni: {
       type: dataTypes.INTEGER(11),
       allowNull: false,
     },
@@ -31,8 +27,8 @@ module.exports = (sequelize, dataTypes) => {
 
   Rutina.associate = (models) => {
     Rutina.belongsTo(models.Cliente, {
-      as: "cliente",
-      foreignKey: "clientes_id",
+      as: "Cliente",
+      foreignKey: "cliente_dni",
     });
   };
 

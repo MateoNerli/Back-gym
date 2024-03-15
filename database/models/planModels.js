@@ -1,28 +1,32 @@
 module.exports = (sequelize, DataTypes) => {
-  let alias = "Categoria";
+  let alias = "Plan";
   let columns = {
-    id: {
+    codigo: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
     nombre: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    precio: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     descripcion: {
-      type: DataTypes.STRING(1000),
+      type: DataTypes.string,
       allowNull: false,
     },
   };
 
-  let configurations = {
-    tableName: "categoria",
+  let config = {
+    tableName: "plan",
     timestamps: false,
   };
 
-  const Categoria = sequelize.define(alias, columns, configurations);
+  const Plan = sequelize.define(alias, columns, config);
 
-  return Categoria;
+  return Plan;
 };

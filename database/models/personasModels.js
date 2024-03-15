@@ -1,24 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
-  let alias = "User";
+  let alias = "Persona";
   let columns = {
-    id: {
+    dni: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-    },
-    usuario: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
     nombre: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    correo: {
+    apellido: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
+    direccion: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -26,36 +23,38 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    foto: {
+    correo: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    fecha: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    estado: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    rol_id: {
+
+    fecha_nacimiento: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    sexo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    gimnasio_codigo: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
   };
-  let configurations = {
-    tableName: "usuarios",
+
+  let config = {
+    tableName: "persona",
     timestamps: false,
   };
 
-  const User = sequelize.define(alias, columns, configurations);
+  const Persona = sequelize.define(alias, columns, config);
 
-  User.associate = (models) => {
-    User.belongsTo(models.UserRole, {
-      as: "UserRole",
-      foreignKey: "rol_id",
+  Persona.associate = (models) => {
+    Persona.belongsTo(models.Gimnasio, {
+      as: "gimnasio",
+      foreignKey: "gimnasio_codigo",
     });
   };
 
-  return User;
+  return Persona;
 };
