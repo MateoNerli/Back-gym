@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    estado: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
 
     fecha_nacimiento: {
       type: DataTypes.DATE,
