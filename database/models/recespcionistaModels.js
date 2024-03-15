@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  let alias = "Nutricionista";
+  let alias = "Recepcionista";
   let columns = {
     dni: {
       type: DataTypes.INTEGER,
@@ -10,18 +10,18 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   let configurations = {
-    tableName: "nutricionista",
+    tableName: "recepcionista",
     timestamps: false,
   };
 
-  const Nutricionista = sequelize.define(alias, columns, configurations);
+  const Recepcionista = sequelize.define(alias, columns, configurations);
 
-  Nutricionista.associate = (models) => {
-    Nutricionista.belongsTo(models.Empleado, {
+  Recepcionista.associate = (models) => {
+    Recepcionista.belongsTo(models.Empleado, {
       as: "empleado",
       foreignKey: "dni",
     });
   };
 
-  return Nutricionista;
+  return Recepcionista;
 };

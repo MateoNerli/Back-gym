@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Cliente.associate = (models) => {
     Cliente.belongsTo(models.Plan, {
-      as: "plan",
+      as: "Plan",
       foreignKey: "codigo_plan",
     });
     Cliente.belongsTo(models.Promocion, {

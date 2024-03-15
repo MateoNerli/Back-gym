@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  let alias = "Plan";
+  let alias = "Promocion";
   let columns = {
     codigo: {
       type: DataTypes.INTEGER,
@@ -11,22 +11,23 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    precio: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     descripcion: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+
+    descuento: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   };
 
-  let config = {
-    tableName: "plan",
+  let configurations = {
+    tableName: "promocion",
     timestamps: false,
   };
 
-  const Plan = sequelize.define(alias, columns, config);
+  const Promocion = sequelize.define(alias, columns, configurations);
 
-  return Plan;
+  return Promocion;
 };
