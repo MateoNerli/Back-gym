@@ -1,38 +1,66 @@
 const db = require("../database/models");
 
 const personasController = {
-  getAllPersons: async (req, res) => {
+  getAllClientes: async (req, res) => {
     try {
-      const personas = await db.Persona.findAll();
+      const cliente = await db.Cliente.findAll({
+        include: [
+          { model: db.Persona, as: "persona" },
+          { model: db.Plan, as: "Plan" },
+          { model: db.Promocion, as: "promocion" },
+          { model: db.FichaMedica, as: "FichaMedica" },
+        ],
+      });
       let respuesta = {
         meta: {
           status: 200,
-          changeType: "positive",
-          title: "Listado de usuarios",
-          total: personas.length,
+          title: "Listado de clientes",
+          total: cliente.length,
         },
-        data: personas,
+        data: cliente,
       };
       res.json(respuesta);
     } catch (error) {
       res.json({ error: error.message });
     }
   },
-  getPersonById: async (req, res) => {
+
+  getClienteById: async (req, res) => {
     try {
-      const person = await db.Persona.findByPk(req.params.id);
-      res.json(person);
+      const cliente = await db.Cliente.findByPk(req.params.dni, {
+        include: [
+          { model: db.Persona, as: "persona" },
+          { model: db.Plan, as: "Plan" },
+          { model: db.Promocion, as: "promocion" },
+          {
+            model: db.FichaMedica,
+            as: "FichaMedica",
+            include: [
+              {
+                model: db.EnfermedadFicha,
+                as: "EnfermedadFicha",
+              },
+              {
+                model: db.OperacionesFicha,
+                as: "OperacionesFicha",
+              },
+            ],
+          },
+        ],
+      });
+      res.json(cliente);
     } catch (error) {
       res.json({ error: error.message });
-      S;
     }
   },
+
   createPerson: async (req, res) => {
+    console.log(req.body);
     try {
-      const newPerson = await db.Persona.create(req.body);
-      res.json(newPerson);
+      const person = await db.Persona.create(req.body);
+      res.json({ message: "Persona creada exitosamente" });
     } catch (error) {
-      res.json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
   updatePerson: async (req, res) => {

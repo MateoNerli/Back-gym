@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       allowNull: false,
     },
-    nombre_enfermedad: {
+    enfermedad: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 
   EnfermedadFicha.associate = function (models) {
     EnfermedadFicha.belongsTo(models.FichaMedica, {
-      as: "fichaMedica",
+      as: "FichaMedica",
       foreignKey: "codigo_ficha",
     });
   };

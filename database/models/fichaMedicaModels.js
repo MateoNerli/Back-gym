@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    talla: {
+    altura: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -52,6 +52,14 @@ module.exports = (sequelize, DataTypes) => {
     FichaMedica.belongsTo(models.Cliente, {
       as: "cliente",
       foreignKey: "dni_cliente",
+    });
+    FichaMedica.hasMany(models.EnfermedadFicha, {
+      as: "EnfermedadFicha",
+      foreignKey: "codigo_ficha",
+    });
+    FichaMedica.hasMany(models.OperacionesFicha, {
+      as: "OperacionesFicha",
+      foreignKey: "codigo_ficha",
     });
   };
 

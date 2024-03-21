@@ -2,12 +2,11 @@ module.exports = (sequelize, DataTypes) => {
   let alias = "Cliente";
   let columns = {
     dni: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       primaryKey: true,
-      autoIncrement: true,
       allowNull: false,
     },
-    fecha_inicio: {
+    fecha_ini: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -41,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
   const Cliente = sequelize.define(alias, columns, configurations);
 
   Cliente.associate = (models) => {
+    Cliente.belongsTo(models.Persona, {
+      as: "persona",
+      foreignKey: "dni",
+    });
     Cliente.belongsTo(models.Plan, {
       as: "Plan",
       foreignKey: "codigo_plan",
@@ -48,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     Cliente.belongsTo(models.Promocion, {
       as: "promocion",
       foreignKey: "codigo_promocion",
+    });
+    Cliente.hasMany(models.FichaMedica, {
+      as: "FichaMedica",
+      foreignKey: "dni_cliente",
     });
   };
 
