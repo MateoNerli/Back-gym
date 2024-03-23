@@ -1,32 +1,29 @@
-module.exports = (sequelize, DataTypes) => {
-  let alias = "Plan";
-  let columns = {
-    codigo: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    nombre: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    precio: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    descripcion: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  };
+const queryMySQL = require("../config/config").queryMySQL;
 
-  let config = {
-    tableName: "plan",
-    timestamps: false,
-  };
+exports.getAllPlanes = async () => {
+  return await queryMySQL("SELECT * FROM plan");
+};
 
-  const Plan = sequelize.define(alias, columns, config);
+exports.getPlanById = async (id) => {
+  return await queryMySQL("SELECT * FROM plan WHERE id = ?", [id]);
+};
 
-  return Plan;
+exports.createPlan = async (plan) => {
+  parms = [plan.nombre, plan.descripcion, plan.precio];
+  return await queryMySQL(
+    "INSERT INTO plan (nombre, descripcion, precio) VALUES (?, ?, ?)",
+    parms
+  );
+};
+
+exports.updatePlan = async (id, plan) => {
+  parms = [plan.nombre, plan.descripcion, plan.precio, id];
+  return await queryMySQL(
+    "UPDATE plan SET nombre = ?, descripcion = ?, precio = ? WHERE id = ?",
+    parms
+  );
+};
+
+exports.delete = async (id) => {
+  return await queryMySQL("DELETE FROM plan WHERE id = ?", [id]);
 };

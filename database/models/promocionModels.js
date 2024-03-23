@@ -1,33 +1,29 @@
-module.exports = (sequelize, DataTypes) => {
-  let alias = "Promocion";
-  let columns = {
-    codigo: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    nombre: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    descripcion: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+const queryMySQL = require("../config/config").queryMySQL;
 
-    descuento: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-  };
+exports.getAllPromociones = async () => {
+  return await queryMySQL("SELECT * FROM promocion");
+};
 
-  let configurations = {
-    tableName: "promocion",
-    timestamps: false,
-  };
+exports.getPromocionById = async (id) => {
+  return await queryMySQL("SELECT * FROM promocion WHERE id = ?", [id]);
+};
 
-  const Promocion = sequelize.define(alias, columns, configurations);
+exports.createPromocion = async (promocion) => {
+  parms = [promocion.nombre, promocion.descripcion, promocion.descuento];
+  return await queryMySQL(
+    "INSERT INTO promocion (nombre, descripcion, descuento) VALUES (?, ?, ?)",
+    parms
+  );
+};
 
-  return Promocion;
+exports.updatePromocion = async (id, promocion) => {
+  parms = [promocion.nombre, promocion.descripcion, promocion.descuento, id];
+  return await queryMySQL(
+    "UPDATE promocion SET nombre = ?, descripcion = ?, descuento = ? WHERE id = ?",
+    parms
+  );
+};
+
+exports.delete = async (id) => {
+  return await queryMySQL("DELETE FROM promocion WHERE id = ?", [id]);
 };

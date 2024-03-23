@@ -1,9 +1,9 @@
-const db = require("../database/models");
+const db = require("../database/models/promocionModels");
 
 const promocionesController = {
   getAllPromociones: async (req, res) => {
     try {
-      const promociones = await db.Promocion.findAll();
+      const promociones = await db.getAllPromociones();
       let respuesta = {
         meta: {
           status: 200,
@@ -20,7 +20,7 @@ const promocionesController = {
 
   getPromocionById: async (req, res) => {
     try {
-      const promocion = await db.Promocion.findByPk(req.params.id);
+      const promocion = await db.getPromocionById(req.params.id);
       res.json(promocion);
     } catch (error) {
       res.json({ error: error.message });
@@ -28,7 +28,7 @@ const promocionesController = {
   },
   createPromocion: async (req, res) => {
     try {
-      const newPromocion = await db.Promocion.create(req.body);
+      const newPromocion = await db.createPromocion(req.body);
       res.json(newPromocion);
     } catch (error) {
       res.json({ error: error.message });
@@ -36,7 +36,7 @@ const promocionesController = {
   },
   updatePromocion: async (req, res) => {
     try {
-      const promocion = await db.Promocion.findByPk(req.params.id);
+      const promocion = await db.updatePromocion(req.params.id);
       promocion.update(req.body);
       res.json(promocion);
     } catch (error) {
@@ -45,7 +45,7 @@ const promocionesController = {
   },
   delete: async (req, res) => {
     try {
-      const promocion = await db.Promocion.findByPk(req.params.id);
+      const promocion = await db.delete(req.params.id);
       promocion.destroy();
       res.json(promocion);
     } catch (error) {

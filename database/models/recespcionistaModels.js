@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+odule.exports = (sequelize, DataTypes) => {
   let alias = "Recepcionista";
   let columns = {
     dni: {

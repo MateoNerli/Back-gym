@@ -1,9 +1,9 @@
-const db = require("../database/models");
+const db = require("../database/models/planModels");
 
 const planController = {
   getAllPlanes: async (req, res) => {
     try {
-      const planes = await db.Plan.findAll();
+      const planes = await db.getAllPlanes();
       let respuesta = {
         meta: {
           status: 200,
@@ -20,7 +20,7 @@ const planController = {
 
   getPlanById: async (req, res) => {
     try {
-      const plan = await db.Plan.findByPk(req.params.id);
+      const plan = await db.getPlanById(req.params.id);
       res.json(plan);
     } catch (error) {
       res.json({ error: error.message });
@@ -29,7 +29,7 @@ const planController = {
 
   createPlan: async (req, res) => {
     try {
-      const newPlan = await db.Plan.create(req.body);
+      const newPlan = await db.createPlan(req.body);
       res.json(newPlan);
     } catch (error) {
       res.json({ error: error.message });
@@ -38,7 +38,7 @@ const planController = {
 
   updatePlan: async (req, res) => {
     try {
-      const plan = await db.Plan.findByPk(req.params.id);
+      const plan = await db.updatePlan(req.params.id);
       plan.update(req.body);
       res.json(plan);
     } catch (error) {
@@ -47,7 +47,7 @@ const planController = {
   },
   delete: async (req, res) => {
     try {
-      const plan = await db.Plan.findByPk(req.params.id);
+      const plan = await db.delete(req.params.id);
       plan.destroy();
       res.json(plan);
     } catch (error) {
