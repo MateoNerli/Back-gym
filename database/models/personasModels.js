@@ -93,75 +93,120 @@ exports.createEnfermedadesFicha = (enfermedad) => {
 };
 
 exports.updatePersona = (persona) => {
-  parms = [
-    persona.nombre,
-    persona.apellido,
-    persona.direccion,
-    persona.telefono,
-    persona.fecha_nacimiento,
-    persona.correo,
-    persona.sexo,
-    persona.estado,
-    persona.edad,
-    persona.gimnasio_codigo,
-    persona.dni,
+  const {
+    dni,
+    nombre,
+    apellido,
+    direccion,
+    telefono,
+    fecha_nacimiento,
+    correo,
+    sexo,
+    estado,
+    edad,
+  } = persona;
+  const params = [
+    nombre,
+    apellido,
+    direccion,
+    telefono,
+    fecha_nacimiento,
+    correo,
+    sexo,
+    estado,
+    edad,
+    dni,
   ];
-  return queryMySQL(
-    `update persona set nombre = ?, apellido = ?, direccion = ?, telefono = ?, fecha_nacimiento = ?, correo = ?, sexo = ?, estado = ?, edad = ?, gimnasio_codigo = ? where dni = ?;`,
-    parms
-  );
+  const sql = `
+    UPDATE persona
+    SET nombre = ?, apellido = ?, direccion = ?, telefono = ?, fecha_nacimiento = ?,
+    correo = ?, sexo = ?, estado = ?, edad = ?, gimnasio_codigo = 1 
+    WHERE dni = ?;
+  `;
+  return queryMySQL(sql, params);
 };
 
 exports.updateCliente = (cliente) => {
-  parms = [
-    cliente.fecha_ini,
-    cliente.fecha_fin,
-    cliente.ocupacion,
-    cliente.telefono_emergencia,
-    cliente.codigo_plan,
-    cliente.codigo_promocion,
-    cliente.dni,
+  const {
+    dni,
+    fecha_ini,
+    fecha_fin,
+    ocupacion,
+    telefono_emergencia,
+    codigo_plan,
+    codigo_promocion,
+  } = cliente;
+  const params = [
+    fecha_ini,
+    fecha_fin,
+    ocupacion,
+    telefono_emergencia,
+    codigo_plan,
+    codigo_promocion,
+    dni,
   ];
-  return queryMySQL(
-    `update cliente set fecha_ini = ?, fecha_fin = ?, ocupacion = ?, telefono_emergencia = ?, codigo_plan = ?, codigo_promocion = ? where dni = ?;`,
-    parms
-  );
+  const sql = `
+    UPDATE cliente
+    SET fecha_ini = ?, fecha_fin = ?, ocupacion = ?, telefono_emergencia = ?,
+    codigo_plan = ?, codigo_promocion = ?
+    WHERE dni = ?;
+  `;
+  return queryMySQL(sql, params);
 };
 
 exports.updateFichaMedica = (ficha) => {
-  parms = [
-    ficha.fecha,
-    ficha.peso,
-    ficha.altura,
-    ficha.med_cintura,
-    ficha.med_cadera,
-    ficha.porc_grasa_corporal,
-    ficha.objetivo,
-    ficha.dni_cliente,
-    ficha.codigo,
+  const {
+    fecha,
+    peso,
+    altura,
+    med_cintura,
+    med_cadera,
+    porc_grasa_corporal,
+    objetivo,
+    dni_cliente,
+    codigo,
+  } = ficha;
+  const params = [
+    fecha,
+    peso,
+    altura,
+    med_cintura,
+    med_cadera,
+    porc_grasa_corporal,
+    objetivo,
+    dni_cliente,
+    codigo,
   ];
-  return queryMySQL(
-    `update fichamedica set fecha = ?, peso = ?, altura = ?, med_cintura = ?, med_cadera = ?, porc_grasa_corporal = ?, objetivo = ?, dni_cliente = ? where codigo = ?;`,
-    parms
-  );
+  const sql = `
+    UPDATE fichamedica
+    SET fecha = ?, peso = ?, altura = ?, med_cintura = ?, med_cadera = ?,
+    porc_grasa_corporal = ?, objetivo = ?, dni_cliente = ?
+    WHERE codigo = ?;
+  `;
+  return queryMySQL(sql, params);
 };
 
-exports.updateOperacionesFicha = (operacion) => {
-  parms = [operacion.operacion, operacion.codigo_ficha];
-  return queryMySQL(
-    `update operaciones_ficha set operacion = ? where codigo_ficha = ?;`,
-    parms
-  );
+exports.updateOperacionesFicha = (fichaC) => {
+  const { operacion, codigo_ficha } = fichaC;
+  const params = [operacion, codigo_ficha];
+  const sql = `
+    UPDATE operaciones_ficha
+    SET operacion = ?
+    WHERE codigo_ficha = ?;
+  `;
+  return queryMySQL(sql, params);
 };
 
-exports.updateEnfermedadesFicha = (enfermedad) => {
-  parms = [enfermedad.enfermedad, enfermedad.codigo_ficha];
-  return queryMySQL(
-    `update enfermedades_ficha set enfermedad = ? where codigo_ficha = ?;`,
-    parms
-  );
+exports.updateEnfermedadesFicha = (codigoE) => {
+  const { enfermedad, codigo_ficha } = codigoE;
+  const params = [enfermedad, codigo_ficha];
+  const sql = `
+    UPDATE enfermedades_ficha
+    SET enfermedad = ?
+    WHERE codigo_ficha = ?;
+  `;
+  return queryMySQL(sql, params);
 };
-
 exports.deleteCliente = (dni) => {
   return queryMySQL(`delete from persona where dni = ?;`, [dni]);
 };

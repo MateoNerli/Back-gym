@@ -8,7 +8,8 @@ const personasController = require("../controllers/personasController");
 router.get("/clientes", personasController.getAllClientes);
 router.get("/clientes/:dni", personasController.getClienteById);
 router.post("/clientes/create", personasController.createCliente);
-router.post("/clientes/:dni", personasController.updateCliente);
+router.put("/clientes/:dni", personasController.updateCliente);
 router.delete("/clientes/:dni", personasController.deleteCliente);
 
 module.exports = router;
+9;

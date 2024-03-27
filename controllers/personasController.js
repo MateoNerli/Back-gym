@@ -29,13 +29,11 @@ const personasController = {
 
   createCliente: async (req, res) => {
     try {
-      // Validar la fecha de nacimiento y convertirla a objeto Date
       const fechaNacimiento = new Date(req.body.fecha_nacimiento);
       if (isNaN(fechaNacimiento.getTime())) {
         throw new Error("Fecha de nacimiento inválida");
       }
 
-      // Calcular la fecha de finalización basada en el tipo de plan
       let fechaFin;
       switch (parseInt(req.body.codigo_plan)) {
         case 1: // Plan mensual
@@ -58,7 +56,6 @@ const personasController = {
           throw new Error("Código de plan inválido");
       }
 
-      // Convertir los campos a los tipos de datos apropiados
       const clienteData = {
         dni: parseInt(req.body.dni),
         fecha_ini: new Date(), // Puedes asignar la fecha actual directamente si se va a crear ahora
@@ -80,7 +77,6 @@ const personasController = {
         dni_cliente: parseInt(req.body.dni), // Convertir a entero
       };
 
-      // Insertar los datos en la base de datos
       const persona = await db.createPersona({
         dni: clienteData.dni,
         nombre: req.body.nombre,
@@ -98,16 +94,13 @@ const personasController = {
       const cliente = await db.createCliente(clienteData);
       const fichaMedica = await db.createFichaMedica(fichaMedicaData);
 
-      // Obtener el insertId de la ficha médica creada
       const codigoFicha = fichaMedica.insertId;
 
-      // Crear operaciones de ficha médica
       const operacionFicha = await db.createOperacionesFicha({
         codigo_ficha: codigoFicha, // Utilizar el insertId de la ficha médica
         operacion: req.body.operaciones,
       });
 
-      // Crear enfermedades de ficha médica
       const enfermedadFicha = await db.createEnfermedadesFicha({
         codigo_ficha: codigoFicha, // Utilizar el insertId de la ficha médica
         enfermedad: req.body.enfermedades,
@@ -122,10 +115,77 @@ const personasController = {
 
   updateCliente: async (req, res) => {
     try {
-      const person = await db.updateCliente(req.params.dni, req.body);
-      res.json(person);
+      // Obtener el cliente actual por su DNI
+      const clienteActual = await db.getClienteById(req.params.dni);
+      console.log("cliente actak", clienteActual);
+
+      console.log("req.body", req.body);
+
+      // Verificar si el cliente actual existe
+      if (!clienteActual) {
+        return res.status(404).json({ error: "Cliente no encontrado" });
+      }
+
+      const personaUpdateResult = await db.updatePersona({
+        nombre: req.body.nombre,
+        apellido: req.body.apellido,
+        direccion: req.body.direccion,
+        telefono: req.body.telefono,
+        fecha_nacimiento: req.body.fecha_nacimiento,
+        correo: req.body.correo,
+        sexo: req.body.sexo,
+        estado: req.body.estado,
+        edad: req.body.edad,
+        gimnasio_codigo: 1,
+        dni: req.params.dni,
+      });
+
+      const clienteUpdateResult = await db.updateCliente({
+        fecha_ini: clienteActual[0].fecha_ini,
+        fecha_fin: clienteActual[0].fecha_fin,
+        ocupacion: req.body.ocupacion,
+        telefono_emergencia: req.body.telefono_emergencia,
+        codigo_plan: req.body.codigo_plan,
+        codigo_promocion: req.body.codigo_promocion,
+        dni: req.params.dni,
+      });
+
+      // Actualizar la ficha médica del cliente
+      const fichaMedicaUpdateResult = await db.updateFichaMedica({
+        fecha: clienteActual[0].fecha,
+        peso: req.body.peso,
+        altura: req.body.altura,
+        med_cintura: req.body.med_cintura,
+        med_cadera: req.body.med_cadera,
+        porc_grasa_corporal: req.body.porc_grasa_corporal,
+        objetivo: req.body.objetivo,
+        dni_cliente: req.params.dni,
+        codigo: clienteActual[0].codigo,
+      });
+
+      // Actualizar las operaciones de la ficha médica
+      const operacionesFichaUpdateResult = await db.updateOperacionesFicha({
+        codigo_ficha: clienteActual[0].codigo,
+        operacion: req.body.operacion,
+      });
+
+      // Actualizar las enfermedades de la ficha médica
+      const enfermedadesFichaUpdateResult = await db.updateEnfermedadesFicha({
+        codigo_ficha: clienteActual[0].codigo,
+        enfermedad: req.body.enfermedad,
+      });
+
+      console.log("fichaMedicaUpdateResult", fichaMedicaUpdateResult);
+      console.log("operacionesFichaUpdateResult", operacionesFichaUpdateResult);
+      console.log(
+        "enfermedadesFichaUpdateResult",
+        enfermedadesFichaUpdateResult
+      );
+
+      res.json({ message: "Cliente actualizado exitosamente" });
     } catch (error) {
-      res.json({ error: error.message });
+      console.error(error);
+      res.status(500).json({ error: "Error al actualizar el cliente" });
     }
   },
 
