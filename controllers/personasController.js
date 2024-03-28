@@ -29,6 +29,38 @@ const personasController = {
 
   createCliente: async (req, res) => {
     try {
+      const existingCliente = await db.getClienteById(req.body.dni);
+      if (existingCliente) {
+        return res.status(409).json({ error: "El DNI ya está registrado" });
+      }
+
+      const requiredFields = [
+        "dni",
+        "nombre",
+        "apellido",
+        "direccion",
+        "edad",
+        "telefono",
+        "correo",
+        "sexo",
+        "fecha_nacimiento",
+        "codigo_plan",
+        "peso",
+        "altura",
+        "med_cintura",
+        "med_cadera",
+        "porc_grasa_corporal",
+        "objetivo",
+        "ocupacion",
+        "telefono_emergencia",
+      ];
+
+      for (let field of requiredFields) {
+        if (!req.body[field]) {
+          throw new Error(`El campo ${field} es requerido`);
+        }
+      }
+
       const fechaNacimiento = new Date(req.body.fecha_nacimiento);
       if (isNaN(fechaNacimiento.getTime())) {
         throw new Error("Fecha de nacimiento inválida");
@@ -58,7 +90,7 @@ const personasController = {
 
       const clienteData = {
         dni: parseInt(req.body.dni),
-        fecha_ini: new Date(), // Puedes asignar la fecha actual directamente si se va a crear ahora
+        fecha_ini: new Date(),
         fecha_fin: fechaFin,
         ocupacion: req.body.ocupacion,
         telefono_emergencia: req.body.telefono_emergencia,
@@ -115,13 +147,35 @@ const personasController = {
 
   updateCliente: async (req, res) => {
     try {
-      // Obtener el cliente actual por su DNI
+      const requiredFields = [
+        "dni",
+        "nombre",
+        "apellido",
+        "direccion",
+        "edad",
+        "telefono",
+        "correo",
+        "sexo",
+        "fecha_nacimiento",
+        "codigo_plan",
+        "peso",
+        "altura",
+        "med_cintura",
+        "med_cadera",
+        "porc_grasa_corporal",
+        "objetivo",
+        "ocupacion",
+        "telefono_emergencia",
+      ];
+
+      for (let field of requiredFields) {
+        if (!req.body[field]) {
+          throw new Error(`El campo ${field} es requerido`);
+        }
+      }
+
       const clienteActual = await db.getClienteById(req.params.dni);
-      console.log("cliente actak", clienteActual);
 
-      console.log("req.body", req.body);
-
-      // Verificar si el cliente actual existe
       if (!clienteActual) {
         return res.status(404).json({ error: "Cliente no encontrado" });
       }
@@ -150,7 +204,6 @@ const personasController = {
         dni: req.params.dni,
       });
 
-      // Actualizar la ficha médica del cliente
       const fichaMedicaUpdateResult = await db.updateFichaMedica({
         fecha: clienteActual[0].fecha,
         peso: req.body.peso,
@@ -163,24 +216,15 @@ const personasController = {
         codigo: clienteActual[0].codigo,
       });
 
-      // Actualizar las operaciones de la ficha médica
       const operacionesFichaUpdateResult = await db.updateOperacionesFicha({
         codigo_ficha: clienteActual[0].codigo,
         operacion: req.body.operacion,
       });
 
-      // Actualizar las enfermedades de la ficha médica
       const enfermedadesFichaUpdateResult = await db.updateEnfermedadesFicha({
         codigo_ficha: clienteActual[0].codigo,
         enfermedad: req.body.enfermedad,
       });
-
-      console.log("fichaMedicaUpdateResult", fichaMedicaUpdateResult);
-      console.log("operacionesFichaUpdateResult", operacionesFichaUpdateResult);
-      console.log(
-        "enfermedadesFichaUpdateResult",
-        enfermedadesFichaUpdateResult
-      );
 
       res.json({ message: "Cliente actualizado exitosamente" });
     } catch (error) {
@@ -192,10 +236,13 @@ const personasController = {
   deleteCliente: async (req, res) => {
     try {
       const person = await db.deleteCliente(req.params.dni);
-      person.destroy();
-      res.json(person);
+      if (!person.affectedRows) {
+        return res.status(404).json({ error: "Cliente no encontrado" });
+      }
+      res.json({ message: "Cliente eliminado exitosamente" });
     } catch (error) {
-      res.json({ error: error.message });
+      console.error(error);
+      res.status(500).json({ error: "Error al eliminar el cliente" });
     }
   },
 };

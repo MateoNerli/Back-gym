@@ -9,7 +9,7 @@ router.get("/clientes", personasController.getAllClientes);
 router.get("/clientes/:dni", personasController.getClienteById);
 router.post("/clientes/create", personasController.createCliente);
 router.put("/clientes/:dni", personasController.updateCliente);
-router.delete("/clientes/:dni", personasController.deleteCliente);
+router.delete("/clientes/delete/:dni", personasController.deleteCliente);
 
 module.exports = router;
 9;
