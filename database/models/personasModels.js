@@ -14,10 +14,12 @@ exports.getAllClientes = () => {
 exports.getClienteById = (dni) => {
   return queryMySQL(
     `select * from persona p
-  inner join cliente c on c.dni = p.dni
-  inner join fichamedica f on f.dni_cliente = c.dni
-  inner join enfermedades_ficha ef on ef.codigo_ficha = f.codigo
-  inner join operaciones_ficha o on o.codigo_ficha = f.codigo
+    inner join cliente c on c.dni = p.dni
+    inner join fichamedica f on f.dni_cliente = c.dni
+    inner join enfermedades_ficha ef on ef.codigo_ficha = f.codigo
+    inner join operaciones_ficha o on o.codigo_ficha = f.codigo
+    inner join plan pl on pl.codigo = c.codigo_plan
+    inner join promocion pr on pr.codigo = c.codigo_promocion
   where p.dni = ?;`,
     [dni]
   );

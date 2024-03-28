@@ -9,17 +9,17 @@ exports.getPlanById = async (id) => {
 };
 
 exports.createPlan = async (plan) => {
-  parms = [plan.nombre, plan.descripcion, plan.precio];
+  parms = [plan.nombre_plan, plan.descripcion, plan.precio];
   return await queryMySQL(
-    "INSERT INTO plan (nombre, descripcion, precio) VALUES (?, ?, ?)",
+    "INSERT INTO plan (nombre_plan, descripcion, precio) VALUES (?, ?, ?)",
     parms
   );
 };
 
 exports.updatePlan = async (id, plan) => {
-  parms = [plan.nombre, plan.descripcion, plan.precio, id];
+  parms = [plan.nombre_plan, plan.descripcion, plan.precio, id];
   return await queryMySQL(
-    "UPDATE plan SET nombre = ?, descripcion = ?, precio = ? WHERE id = ?",
+    "UPDATE plan SET nombre_plan = ?, descripcion = ?, precio = ? WHERE id = ?",
     parms
   );
 };

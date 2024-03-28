@@ -9,17 +9,22 @@ exports.getPromocionById = async (id) => {
 };
 
 exports.createPromocion = async (promocion) => {
-  parms = [promocion.nombre, promocion.descripcion, promocion.descuento];
+  parms = [promocion.nombre_promo, promocion.descripcion, promocion.descuento];
   return await queryMySQL(
-    "INSERT INTO promocion (nombre, descripcion, descuento) VALUES (?, ?, ?)",
+    "INSERT INTO promocion (nombre_promo, descripcion, descuento) VALUES (?, ?, ?)",
     parms
   );
 };
 
 exports.updatePromocion = async (id, promocion) => {
-  parms = [promocion.nombre, promocion.descripcion, promocion.descuento, id];
+  parms = [
+    promocion.nombre_promo,
+    promocion.descripcion,
+    promocion.descuento,
+    id,
+  ];
   return await queryMySQL(
-    "UPDATE promocion SET nombre = ?, descripcion = ?, descuento = ? WHERE id = ?",
+    "UPDATE promocion SET nombre_promo = ?, descripcion = ?, descuento = ? WHERE id = ?",
     parms
   );
 };
